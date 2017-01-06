@@ -1,0 +1,15 @@
+//
+//  NYVideoPlayerVC.h
+//  DDNM-NY
+//
+//  Created by 叶星龙 on 2016/12/30.
+//  Copyright © 2016年 北京叮咚柠檬科技有限公司. All rights reserved.
+//
+
+#import "NYBaseVC.h"
+#import "NYAssetModel.h"
+@interface NYVideoPlayerVC : NYBaseVC
+
+@property (nonatomic ,strong) NYAssetModel *assetModel;
+
+@end
