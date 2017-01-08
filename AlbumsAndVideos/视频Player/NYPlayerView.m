@@ -232,7 +232,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
             // 当缓冲好的时候
             
-            if(self.state!=NYPlayerStatePause && self.state !=NYPlayerStatePlaying){
+            if(self.state!=NYPlayerStatePause){
                 [self bufferingSomeSecond];
             }
             
@@ -340,9 +340,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
  播放
  */
 - (void)play{
-    self.state = NYPlayerStatePlaying;
-    isPauseByUser = NO;
-    [_player play];
+    if (!self.playerItem.isPlaybackLikelyToKeepUp &&!isLocalVideo) {
+        isPauseByUser = NO;
+        [self bufferingSomeSecond];
+    }else{
+        self.state = NYPlayerStatePlaying;
+        isPauseByUser = NO;
+        [_player play];
+    }
+    
 }
 
 /**
@@ -468,7 +474,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if (!self.playerItem.isPlaybackLikelyToKeepUp) {
             [self bufferingSomeSecond];
         }else{
-            
             [self play];
         }
     });
