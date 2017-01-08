@@ -464,7 +464,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
  缓冲较差时候回调这里
  */
 - (void)bufferingSomeSecond{
-    NSLog(@"1");
     if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
         return;
     }
@@ -499,7 +498,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)seekToTime:(NSInteger)dragedSeconds completionHandler:(void (^)(BOOL finished))completionHandler{
     if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-        NSLog(@"2");
         if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
             return;
         }
@@ -748,8 +746,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
         [_delegate playerDraggedTime:sumTime totalTime:totalMovieDuration isForward:style];
     }
 }
-
-
 
 #pragma -mark 通知
 /**
