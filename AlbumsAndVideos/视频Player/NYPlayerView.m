@@ -186,6 +186,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (object == _player.currentItem) {
         if ([keyPath isEqualToString:@"status"]) {
             if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+                if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+                    return;
+                }
+                
                 [self setNeedsLayout];
                 [self layoutIfNeeded];
                 // 添加playerLayer到self.layer
@@ -225,13 +229,18 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
+            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+                return;
+            }
             if (self.playerItem.playbackBufferEmpty) {
                 self.state = NYPlayerStateBuffering;
                 [self bufferingSomeSecond];
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
             // 当缓冲好的时候
-            
+            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+                return;
+            }
             if(self.state!=NYPlayerStatePause){
                 [self bufferingSomeSecond];
             }
@@ -456,7 +465,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)bufferingSomeSecond{
     NSLog(@"1");
-    
+    if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+        return;
+    }
     self.state = NYPlayerStateBuffering;
     // playbackBufferEmpty会反复进入，因此在bufferingOneSecond延时播放执行完之前再调用bufferingSomeSecond都忽略
     if (isBuffering) return;
@@ -464,6 +475,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [_player pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            isBuffering = NO;
+            return;
+        }
         // 如果此时用户已经暂停了，则不再需要开启播放了
         if (isPauseByUser) {
             isBuffering = NO;
@@ -485,7 +500,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)seekToTime:(NSInteger)dragedSeconds completionHandler:(void (^)(BOOL finished))completionHandler{
     if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
         NSLog(@"2");
-        
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            return;
+        }
         if (!isLocalVideo) {
             self.state = NYPlayerStateBuffering;
         }
@@ -505,6 +522,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }else{
                 if (!isLocalVideo) {
                     [self bufferingSomeSecond];
+                }else{
+                    [self play];
                 }
             }
         }];
@@ -770,6 +789,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)appDidEnterBackground{
     // 退到后台锁定屏幕方向
     if(_player){
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            return;
+        }
         [_player pause];
         self.state = NYPlayerStatePause;
     }
@@ -780,6 +802,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)appDidEnterPlayground{
     if(_player){
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            return;
+        }
         if (!isPauseByUser) {
             self.state = NYPlayerStatePlaying;
             isPauseByUser = NO;
