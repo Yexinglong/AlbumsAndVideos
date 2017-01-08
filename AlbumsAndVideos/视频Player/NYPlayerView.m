@@ -33,7 +33,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
     UITapGestureRecognizer *singleTap;
     MMMaterialDesignSpinner *_activity;
     UIButton *replayBtn;
-    NSInteger index;
     
 }
 
@@ -123,8 +122,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
         NSLog(@"NYPlayerStateFailed");
     }else if (state==NYPlayerStateBuffering) {
         replayBtn.hidden=YES;
+        
         if(![_activity isAnimating]){
-        [_activity startAnimating];
+            [_activity startAnimating];
         }
         NSLog(@"NYPlayerStateBuffering");
     }else if (state==NYPlayerStatePlaying) {
@@ -136,15 +136,17 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }else if (state==NYPlayerStateStopped) {
         replayBtn.kNormalText(@"重播");
         replayBtn.hidden=NO;
+        
         if([_activity isAnimating]){
             [_activity stopAnimating];
         }
         NSLog(@"NYPlayerStateStopped");
     }else if (state==NYPlayerStatePause) {
         replayBtn.hidden=YES;
+        
         NSLog(@"NYPlayerStatePause");
         if([_activity isAnimating]){
-        [_activity stopAnimating];
+            [_activity stopAnimating];
         }
     }
     
@@ -188,7 +190,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 [self layoutIfNeeded];
                 // 添加playerLayer到self.layer
                 [self.layer insertSublayer:_playerLayer atIndex:0];
-                self.state = NYPlayerStatePlaying;
+                if (!isLocalVideo) {
+                    self.state = NYPlayerStateBuffering;
+                }else{
+                    self.state = NYPlayerStatePlaying;
+                }
                 // 加载完成后，再添加平移手势
                 // 添加平移手势，用来控制音量、亮度、快进快退
                 if (panRecognizer) {
@@ -225,12 +231,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
             // 当缓冲好的时候
-            if (self.playerItem.playbackLikelyToKeepUp && self.state == NYPlayerStateBuffering){
-                self.state = NYPlayerStatePlaying;
-            }else{
-                if(self.state!=NYPlayerStatePause){
-                    [self bufferingSomeSecond];
-                }
+            
+            if(self.state!=NYPlayerStatePause && self.state !=NYPlayerStatePlaying){
+                [self bufferingSomeSecond];
             }
             
         }
@@ -292,7 +295,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     isAutoPlay = YES;
     // 添加播放进度计时器
     [self createTimer];
-//    // 获取系统音量
+    //    // 获取系统音量
     [self configureVolume];
     //添加手势
     [self createGesture];
@@ -305,8 +308,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         isLocalVideo = NO;
     }
     // 开始播放
-    [self play];
     isPauseByUser = NO;
+    [_player play];
 }
 
 
@@ -446,11 +449,12 @@ typedef NS_ENUM(NSInteger, PanDirection){
  缓冲较差时候回调这里
  */
 - (void)bufferingSomeSecond{
+    NSLog(@"1");
+    
     self.state = NYPlayerStateBuffering;
     // playbackBufferEmpty会反复进入，因此在bufferingOneSecond延时播放执行完之前再调用bufferingSomeSecond都忽略
     if (isBuffering) return;
     isBuffering = YES;
-    if(playDidEnd) return;
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [_player pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -464,6 +468,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if (!self.playerItem.isPlaybackLikelyToKeepUp) {
             [self bufferingSomeSecond];
         }else{
+            
             [self play];
         }
     });
@@ -474,6 +479,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)seekToTime:(NSInteger)dragedSeconds completionHandler:(void (^)(BOOL finished))completionHandler{
     if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+        NSLog(@"2");
+        
+        if (!isLocalVideo) {
+            self.state = NYPlayerStateBuffering;
+        }
         // seekTime:completionHandler:不能精确定位
         // 如果需要精确定位，可以使用seekToTime:toleranceBefore:toleranceAfter:completionHandler:
         // 转换成CMTime才能给player来控制播放进度
@@ -485,9 +495,12 @@ typedef NS_ENUM(NSInteger, PanDirection){
             if (completionHandler) {
                 completionHandler(finished);
             }
-            [_player play];
             if (!weakSelf.playerItem.isPlaybackLikelyToKeepUp && !isLocalVideo) {
                 weakSelf.state = NYPlayerStateBuffering;
+            }else{
+                if (!isLocalVideo) {
+                    [self bufferingSomeSecond];
+                }
             }
         }];
     }
@@ -499,9 +512,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if(_delegate && [_delegate respondsToSelector:@selector(playerIsFullScreen:)]){
             [_delegate playerIsFullScreen:YES];
         }
-        
-        index =[self.fatherView.subviews indexOfObject:self];
-
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
         [UIApplication sharedApplication].statusBarHidden = NO;
         [[[UIApplication sharedApplication].windows lastObject] addSubview:self];
@@ -518,8 +528,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             [_delegate playerIsFullScreen:NO];
         }
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-        
-        [self.fatherView insertSubview:self atIndex:index];
+        [self.fatherView insertSubview:self atIndex:[self.fatherView.subviews indexOfObject:self]];
         NSArray *installedConstraints = [MASViewConstraint installedConstraintsForView:self];
         for (MASConstraint *constraint in installedConstraints) {
             [constraint uninstall];
@@ -658,7 +667,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
             switch (panDirection) {
                 case PanDirectionHorizontalMoved:{
                     isPauseByUser = NO;
-                    NSLog(@"%lf",sumTime);
                     [self seekToTime:sumTime completionHandler:nil];
                     // 把sumTime滞空，不然会越加越多
                     sumTime = 0;
