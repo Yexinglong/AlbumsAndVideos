@@ -41,6 +41,12 @@
         make.top.left.right.bottom.equalTo(@0);
     }];
     
+    [playerView addSubview:self.backBtn];
+    [self.backBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@(20+12-5));
+        make.left.equalTo(@(20-5));
+        make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
+    }];
     
     [[NYImageManager manager] getVideoWithAsset:_assetModel.asset completion:^(AVPlayerItem *playerItem, NSDictionary *info) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -48,23 +54,17 @@
             model.videoURL=((AVURLAsset *)playerItem.asset).URL;
             playerView.playerModel=model;
             [playerView autoPlayTheVideo];
-            
         });
     }];
     
-    [playerView addSubview:self.backBtn];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onStatusBarOrientationChange)
-                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
-                                               object:nil];
 }
 
 
 -(void)back:(id)sender{
     UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
     if (currentOrientation == UIInterfaceOrientationPortrait) {
-        [playerView pause];
+        [playerView stop];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         [playerView onDeviceOrientationChange];
@@ -72,14 +72,6 @@
     
 }
 
--(void)onStatusBarOrientationChange{
-    [self.backBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@(20+12-5));
-        make.left.equalTo(@(20-5));
-        make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
-    }];
-
-}
 
 
 @end
