@@ -66,6 +66,9 @@
 		D61FCD021E1FA0E0006A1868 /* YXLPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD011E1FA0E0006A1868 /* YXLPlayerVC.m */; };
 		D61FCD081E1FA662006A1868 /* NYPhotoShowInheritVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD071E1FA662006A1868 /* NYPhotoShowInheritVC.m */; };
 		D61FCD0B1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD0A1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m */; };
+		D6E67BAE1E24E0CE004D330B /* NYVideoPalayerControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */; };
+		D6E67BB31E24E0E6004D330B /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BB01E24E0E6004D330B /* ASValuePopUpView.m */; };
+		D6E67BB41E24E0E6004D330B /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BB21E24E0E6004D330B /* ASValueTrackingSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,8 +82,8 @@
 		D61FCBFF1E1F9C31006A1868 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D61FCC021E1F9C31006A1868 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D61FCC041E1F9C31006A1868 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D61FCC0B1E1F9CD6006A1868 /* MMMaterialDesignSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMMaterialDesignSpinner.h; sourceTree = "<group>"; };
-		D61FCC0C1E1F9CD6006A1868 /* MMMaterialDesignSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMMaterialDesignSpinner.m; sourceTree = "<group>"; };
+		D61FCC0B1E1F9CD6006A1868 /* MMMaterialDesignSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMMaterialDesignSpinner.h; path = "../视频Player/MMMaterialDesignSpinner.h"; sourceTree = "<group>"; };
+		D61FCC0C1E1F9CD6006A1868 /* MMMaterialDesignSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMMaterialDesignSpinner.m; path = "../视频Player/MMMaterialDesignSpinner.m"; sourceTree = "<group>"; };
 		D61FCC0D1E1F9CD6006A1868 /* NYBrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYBrightnessView.h; sourceTree = "<group>"; };
 		D61FCC0E1E1F9CD6006A1868 /* NYBrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYBrightnessView.m; sourceTree = "<group>"; };
 		D61FCC0F1E1F9CD6006A1868 /* NYPlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPlayerModel.h; sourceTree = "<group>"; };
@@ -184,6 +187,12 @@
 		D61FCD071E1FA662006A1868 /* NYPhotoShowInheritVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoShowInheritVC.m; sourceTree = "<group>"; };
 		D61FCD091E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPhotoReviewMultipleChoiceCell.h; sourceTree = "<group>"; };
 		D61FCD0A1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoReviewMultipleChoiceCell.m; sourceTree = "<group>"; };
+		D6E67BAC1E24E0CE004D330B /* NYVideoPalayerControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYVideoPalayerControlLayer.h; sourceTree = "<group>"; };
+		D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYVideoPalayerControlLayer.m; sourceTree = "<group>"; };
+		D6E67BAF1E24E0E6004D330B /* ASValuePopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASValuePopUpView.h; path = "../相机:相册/ASValuePopUpView.h"; sourceTree = "<group>"; };
+		D6E67BB01E24E0E6004D330B /* ASValuePopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASValuePopUpView.m; path = "../相机:相册/ASValuePopUpView.m"; sourceTree = "<group>"; };
+		D6E67BB11E24E0E6004D330B /* ASValueTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASValueTrackingSlider.h; path = "../相机:相册/ASValueTrackingSlider.h"; sourceTree = "<group>"; };
+		D6E67BB21E24E0E6004D330B /* ASValueTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASValueTrackingSlider.m; path = "../相机:相册/ASValueTrackingSlider.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,8 +261,6 @@
 		D61FCC0A1E1F9CD6006A1868 /* 视频Player */ = {
 			isa = PBXGroup;
 			children = (
-				D61FCC0B1E1F9CD6006A1868 /* MMMaterialDesignSpinner.h */,
-				D61FCC0C1E1F9CD6006A1868 /* MMMaterialDesignSpinner.m */,
 				D61FCC0D1E1F9CD6006A1868 /* NYBrightnessView.h */,
 				D61FCC0E1E1F9CD6006A1868 /* NYBrightnessView.m */,
 				D61FCC0F1E1F9CD6006A1868 /* NYPlayerModel.h */,
@@ -273,6 +280,8 @@
 		D61FCC191E1F9CD6006A1868 /* 相机:相册 */ = {
 			isa = PBXGroup;
 			children = (
+				D6E67BAC1E24E0CE004D330B /* NYVideoPalayerControlLayer.h */,
+				D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */,
 				D61FCC1A1E1F9CD6006A1868 /* NYAssetModel.h */,
 				D61FCC1B1E1F9CD6006A1868 /* NYAssetModel.m */,
 				D61FCC1C1E1F9CD6006A1868 /* NYImageManager.h */,
@@ -335,6 +344,12 @@
 		D61FCCB31E1F9E70006A1868 /* 第三方库 */ = {
 			isa = PBXGroup;
 			children = (
+				D61FCC0B1E1F9CD6006A1868 /* MMMaterialDesignSpinner.h */,
+				D61FCC0C1E1F9CD6006A1868 /* MMMaterialDesignSpinner.m */,
+				D6E67BAF1E24E0E6004D330B /* ASValuePopUpView.h */,
+				D6E67BB01E24E0E6004D330B /* ASValuePopUpView.m */,
+				D6E67BB11E24E0E6004D330B /* ASValueTrackingSlider.h */,
+				D6E67BB21E24E0E6004D330B /* ASValueTrackingSlider.m */,
 				D61FCCB41E1F9E70006A1868 /* Masonry */,
 				D61FCCD11E1F9E70006A1868 /* SVProgressHUD */,
 				D61FCCDE1E1F9E70006A1868 /* YLGIFImage */,
@@ -539,14 +554,17 @@
 				D61FCC351E1F9CD6006A1868 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				D61FCCF11E1F9E70006A1868 /* README.md in Sources */,
 				D61FCC371E1F9CD6006A1868 /* NYAssetModel.m in Sources */,
+				D6E67BB41E24E0E6004D330B /* ASValueTrackingSlider.m in Sources */,
 				D61FCCEB1E1F9E70006A1868 /* MASViewAttribute.m in Sources */,
 				D61FCCE81E1F9E70006A1868 /* MASConstraint.m in Sources */,
 				D61FCBF51E1F9C31006A1868 /* main.m in Sources */,
+				D6E67BB31E24E0E6004D330B /* ASValuePopUpView.m in Sources */,
 				D61FCC381E1F9CD6006A1868 /* NYImageManager.m in Sources */,
 				D61FCCEC1E1F9E70006A1868 /* MASViewConstraint.m in Sources */,
 				D61FCC341E1F9CD6006A1868 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				D61FCCA31E1F9E35006A1868 /* NYBaseNavVC.m in Sources */,
 				D61FCC411E1F9CD6006A1868 /* NYVideoPlayerVC.m in Sources */,
+				D6E67BAE1E24E0CE004D330B /* NYVideoPalayerControlLayer.m in Sources */,
 				D61FCCA41E1F9E35006A1868 /* NYBaseTableViewCell.m in Sources */,
 				D61FCC3C1E1F9CD6006A1868 /* NYPhotoPreviewView.m in Sources */,
 				D61FCC321E1F9CD6006A1868 /* NYPlayerModel.m in Sources */,
@@ -721,6 +739,7 @@
 				D61FCC091E1F9C31006A1868 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
     CGFloat sumTime;//用来保存快进的总时长
     PanDirection panDirection;//定义一个实例变量，保存枚举值
     BOOL isVolume;//是否在调节音量
-    BOOL isPauseByUser;//是否被用户暂停
     BOOL isLocalVideo;//是否播放本地文件
     BOOL playDidEnd;//播放完了
     BOOL isAutoPlay;//是否自动播放
@@ -31,12 +30,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
     UIPanGestureRecognizer *panRecognizer;
     UITapGestureRecognizer *doubleTap;
     UITapGestureRecognizer *singleTap;
-    MMMaterialDesignSpinner *_activity;
-    UIButton *replayBtn;
+    NSInteger layerIndex;
     
 }
 
 @property (nonatomic, assign) NYPlayerState state;
+
+
 
 @end
 
@@ -46,27 +46,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 -(instancetype)init{
     self =[super init];
     if (self) {
-        _activity = [[MMMaterialDesignSpinner alloc] init];
-        _activity.lineWidth = 2;
-        _activity.tintColor = HEX_COLOR_THEME;
-        [self addSubview:_activity];
-        [_activity mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(45, 45));
-        }];
-        
-        replayBtn =[UIButton new];
-        replayBtn.backgroundColor=[UIColor redColor];
-        replayBtn.kNormalText(@"重播");
-        replayBtn.hidden=YES;
-        replayBtn.kAddTouchUpInside(self,@selector(replayBtnClick));
-        [self addSubview:replayBtn];
-        [replayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(45, 45));
-        }];
+
         
         [self addSubview:[NYBrightnessView new]];
+        
         _playerLayerGravity=NYPlayerLayerGravityResizeAspect;
         self.backgroundColor = [UIColor blackColor];
         // app退到后台
@@ -113,42 +96,42 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)setState:(NYPlayerState)state{
     _state = state;
-    if (state==NYPlayerStateFailed) {
-        replayBtn.kNormalText(@"重试");
-        replayBtn.hidden=NO;
-        if([_activity isAnimating]){
-            [_activity stopAnimating];
-        }
-        NSLog(@"NYPlayerStateFailed");
-    }else if (state==NYPlayerStateBuffering) {
-        replayBtn.hidden=YES;
-        
-        if(![_activity isAnimating]){
-            [_activity startAnimating];
-        }
-        NSLog(@"NYPlayerStateBuffering");
-    }else if (state==NYPlayerStatePlaying) {
-        replayBtn.hidden=YES;
-        if([_activity isAnimating]){
-            [_activity stopAnimating];
-        }
-        NSLog(@"NYPlayerStatePlaying");
-    }else if (state==NYPlayerStateStopped) {
-        replayBtn.kNormalText(@"重播");
-        replayBtn.hidden=NO;
-        
-        if([_activity isAnimating]){
-            [_activity stopAnimating];
-        }
-        NSLog(@"NYPlayerStateStopped");
-    }else if (state==NYPlayerStatePause) {
-        replayBtn.hidden=YES;
-        
-        NSLog(@"NYPlayerStatePause");
-        if([_activity isAnimating]){
-            [_activity stopAnimating];
-        }
-    }
+//    if (state==NYPlayerStateFailed) {
+//        replayBtn.kNormalImage(@"repeat_video");
+//        replayBtn.hidden=NO;
+//        if([_activity isAnimating]){
+//            [_activity stopAnimating];
+//        }
+//        NSLog(@"NYPlayerStateFailed");
+//    }else if (state==NYPlayerStateBuffering) {
+//        replayBtn.hidden=YES;
+//        
+//        if(![_activity isAnimating]){
+//            [_activity startAnimating];
+//        }
+//        NSLog(@"NYPlayerStateBuffering");
+//    }else if (state==NYPlayerStatePlaying) {
+//        replayBtn.hidden=YES;
+//        if([_activity isAnimating]){
+//            [_activity stopAnimating];
+//        }
+//        NSLog(@"NYPlayerStatePlaying");
+//    }else if (state==NYPlayerStateStopped) {
+//        replayBtn.hidden=NO;
+//        replayBtn.kNormalImage(@"repeat_video");
+//
+//        if([_activity isAnimating]){
+//            [_activity stopAnimating];
+//        }
+//        NSLog(@"NYPlayerStateStopped");
+//    }else if (state==NYPlayerStatePause) {
+//        replayBtn.hidden=YES;
+//        
+//        NSLog(@"NYPlayerStatePause");
+//        if([_activity isAnimating]){
+//            [_activity stopAnimating];
+//        }
+//    }
     
     NSError *error=nil;
     if (state == NYPlayerStateFailed) {
@@ -304,7 +287,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     isAutoPlay = YES;
     // 添加播放进度计时器
     [self createTimer];
-    //    // 获取系统音量
+    // 获取系统音量
     [self configureVolume];
     //添加手势
     [self createGesture];
@@ -317,7 +300,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         isLocalVideo = NO;
     }
     // 开始播放
-    isPauseByUser = NO;
+    _isPauseByUser = NO;
     [_player play];
 }
 
@@ -336,8 +319,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 -(void)stop{
-    [self resetPlayer];
     self.state=NYPlayerStateStopped;
+    [self resetPlayer];
 }
 
 -(void)replay{
@@ -350,14 +333,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)play{
     if (!self.playerItem.isPlaybackLikelyToKeepUp &&!isLocalVideo) {
-        isPauseByUser = NO;
+        _isPauseByUser = NO;
         [self bufferingSomeSecond];
     }else{
         self.state = NYPlayerStatePlaying;
-        isPauseByUser = NO;
+        _isPauseByUser = NO;
         [_player play];
     }
-    
 }
 
 /**
@@ -365,7 +347,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  */
 - (void)pause{
     self.state = NYPlayerStatePause;
-    isPauseByUser = YES;
+    _isPauseByUser = YES;
     [_player pause];
 }
 
@@ -479,7 +461,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             return;
         }
         // 如果此时用户已经暂停了，则不再需要开启播放了
-        if (isPauseByUser) {
+        if (_isPauseByUser) {
             isBuffering = NO;
             return;
         }
@@ -534,6 +516,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if(_delegate && [_delegate respondsToSelector:@selector(playerIsFullScreen:)]){
             [_delegate playerIsFullScreen:YES];
         }
+        layerIndex=[self.fatherView.subviews indexOfObject:self];
+        
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
         [UIApplication sharedApplication].statusBarHidden = NO;
         [[[UIApplication sharedApplication].windows lastObject] addSubview:self];
@@ -541,7 +525,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             make.size.mas_equalTo(CGSizeMake([[UIScreen mainScreen]bounds].size.width, [[UIScreen mainScreen]bounds].size.height));
             make.center.equalTo([[UIApplication sharedApplication].windows lastObject]);
         }];
-        
+
         [UIView animateWithDuration:0.3 animations:^{
             self.transform = [UIView getTransformRotationAngle];
         }];
@@ -550,7 +534,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             [_delegate playerIsFullScreen:NO];
         }
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
-        [self.fatherView insertSubview:self atIndex:[self.fatherView.subviews indexOfObject:self]];
+        [self.fatherView insertSubview:self atIndex:layerIndex];
         NSArray *installedConstraints = [MASViewConstraint installedConstraintsForView:self];
         for (MASConstraint *constraint in installedConstraints) {
             [constraint uninstall];
@@ -567,14 +551,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
 }
 
-#pragma -mark 点击
--(void)replayBtnClick{
-    [self resetPlayer];
-    [self configNYPlayer];
-}
 
 #pragma -mark 代理方法
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         if (playDidEnd){
@@ -606,8 +584,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
         [self onDeviceOrientationChange];
         return;
     }
-    
-    
     if(_delegate && [_delegate respondsToSelector:@selector(playerScreenClickIsPlayEnd:)]){
         [_delegate playerScreenClickIsPlayEnd:playDidEnd];
     }
@@ -621,7 +597,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (playDidEnd) {
         return;
     }
-    if (isPauseByUser) {
+    if (_isPauseByUser) {
         [self play];
     }else {
         [self pause];
@@ -632,8 +608,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
     
 }
-
-
 
 /**
  pan手势事件
@@ -684,11 +658,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
             break;
         }
         case UIGestureRecognizerStateEnded:{ // 移动停止
+            if(_delegate && [_delegate respondsToSelector:@selector(playerDraggedEnd)]){
+                [_delegate playerDraggedEnd];
+            }
             // 移动结束也需要判断垂直或者平移
             // 比如水平移动结束时，要快进到指定位置，如果这里没有判断，当我们调节音量完之后，会出现屏幕跳动的bug
             switch (panDirection) {
                 case PanDirectionHorizontalMoved:{
-                    isPauseByUser = NO;
+                    _isPauseByUser = NO;
                     [self seekToTime:sumTime completionHandler:nil];
                     // 把sumTime滞空，不然会越加越多
                     sumTime = 0;
@@ -704,7 +681,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
             break;
         }
-        default:
+        default:{
+            if(_delegate && [_delegate respondsToSelector:@selector(playerDraggedEnd)]){
+                [_delegate playerDraggedEnd];
+            }
+        }
             break;
     }
 }
@@ -774,9 +755,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)moviePlayDidEnd:(NSNotification *)notification{
     self.state = NYPlayerStateStopped;
     playDidEnd = YES;
-    if (_delegate && [_delegate respondsToSelector:@selector(playerPlayEnd)]) {
-        [_delegate playerPlayEnd];
-    }
 }
 
 /**
@@ -801,9 +779,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
             return;
         }
-        if (!isPauseByUser) {
+        if (!_isPauseByUser) {
             self.state = NYPlayerStatePlaying;
-            isPauseByUser = NO;
+            _isPauseByUser = NO;
             [self play];
         }
     }

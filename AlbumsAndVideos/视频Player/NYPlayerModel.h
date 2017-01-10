@@ -10,16 +10,16 @@
 #import <UIKit/UIKit.h>
 
 @interface NYPlayerModel : NSObject
-
-/** 视频URL */
-@property (nonatomic, strong) NSURL *videoURL;
-/** 视频封面本地图片 */
-@property (nonatomic, strong) UIImage *placeholderImage;
 /**
- * 视频封面网络图片url
- * 如果和本地图片同时设置，则忽略本地图片，显示网络图片
+ 视频地址
  */
-@property (nonatomic, copy  ) NSString *placeholderImageURLString;
-/** 从xx秒开始播放视频(默认0) */
+@property (nonatomic, strong) NSURL *videoURL;
+/**
+ 视频封面
+ */
+@property (nonatomic, copy  ) NSString *imageURL;
+/**
+ 从xx秒开始播放视频(默认0)
+ */
 @property (nonatomic, copy) NSNumber *seekTime;
 @end

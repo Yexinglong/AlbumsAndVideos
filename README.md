@@ -5,7 +5,8 @@
 
 ![图片效果演示](https://github.com/Yexinglong/AlbumsAndVideos/blob/master/视频gif1.gif?raw=true)
 
-## 视频，提供基础，UI控制层自己写，视频包含各种手势操作
+## 视频，提供基础，UI控制层可以自定义写，视频包含各种手势操作
+想要UI层的可以看视频相册里面的视频播放
 
 >连击两下 暂停播放
 >

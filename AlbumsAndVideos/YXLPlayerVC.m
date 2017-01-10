@@ -51,16 +51,17 @@
   
 
     [playerView addSubview:self.backBtn];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onStatusBarOrientationChange)
-                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
-                                               object:nil];
+    [self.backBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@(20+12-5));
+        make.left.equalTo(@(20-5));
+        make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
+    }];
+  
     
     
     
     UILabel *label =[UILabel new];
-    label.kText(@"视频的UI层我没有做，把手势添加上去了，我的代码借鉴ZFPlayer，加以修补和调整，手势有左右横向快进快退  双击播放暂停  视频左右两边垂直上下滑动调整亮度和音量,UI层大家自己去定义吧！");
+    label.kText(@"视频的UI层在视频相册里面，把手势添加上去了，我的代码借鉴ZFPlayer，手势有左右横向快进快退  双击播放暂停  视频左右两边垂直上下滑动调整亮度和音量,UI层大家自己去定义吧！");
     label.kFont(@15);
     label.textColor=[UIColor redColor];
     label.numberOfLines=0;
@@ -99,12 +100,5 @@
     
 }
 
--(void)onStatusBarOrientationChange{
-    [self.backBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@(20+12-5));
-        make.left.equalTo(@(20-5));
-        make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
-    }];
-    
-}
+
 @end

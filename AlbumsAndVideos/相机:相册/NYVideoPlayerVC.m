@@ -10,8 +10,10 @@
 #import "NYImageManager.h"
 #import "NYPlayerView.h"
 #import "UIView+NYTransform.h"
-@interface NYVideoPlayerVC (){
+#import "NYVideoPalayerControlLayer.h"
+@interface NYVideoPlayerVC ()<NYPlayerViewDelegate>{
     NYPlayerView *playerView;
+    NYVideoPalayerControlLayer *controlLayer;
 }
 
 @end
@@ -27,7 +29,6 @@
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor blackColor];
@@ -41,12 +42,24 @@
         make.top.left.right.bottom.equalTo(@0);
     }];
     
+    
+    
+    controlLayer=[NYVideoPalayerControlLayer new];
+    controlLayer.playerView=playerView;
+    controlLayer.hasPreviewView=YES;
+    playerView.delegate=(id)controlLayer;
+    [playerView addSubview:controlLayer];
+    [controlLayer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsZero);
+    }];
+    
     [playerView addSubview:self.backBtn];
     [self.backBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(@(20+12-5));
         make.left.equalTo(@(20-5));
         make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
     }];
+    
     
     [[NYImageManager manager] getVideoWithAsset:_assetModel.asset completion:^(AVPlayerItem *playerItem, NSDictionary *info) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -56,10 +69,7 @@
             [playerView autoPlayTheVideo];
         });
     }];
-    
-    
 }
-
 
 -(void)back:(id)sender{
     UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
@@ -69,9 +79,5 @@
     }else{
         [playerView onDeviceOrientationChange];
     }
-    
 }
-
-
-
 @end

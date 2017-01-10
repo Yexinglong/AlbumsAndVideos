@@ -15,7 +15,6 @@
 
 @interface NYPhotoShowVC ()<UICollectionViewDelegate,UICollectionViewDataSource>{
     NYPhotoGroupListView *groupListView;
-    
 }
 
 @end
