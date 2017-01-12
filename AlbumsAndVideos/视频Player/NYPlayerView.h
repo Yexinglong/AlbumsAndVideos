@@ -62,9 +62,9 @@ typedef NS_ENUM(NSInteger, NYPlayerState) {
 - (void)playerDraggedEnd;
 /**
  屏幕单击
- isPlayEnd 告知单击时视频状态是否已经播放完毕
+ isPlayEnd 告知单击时视频
  */
--(void)playerScreenClickIsPlayEnd:(BOOL)isPlayEnd;
+-(void)playerScreenClick;
 /**
  全屏回调   NO是原样   YES是全屏
  */

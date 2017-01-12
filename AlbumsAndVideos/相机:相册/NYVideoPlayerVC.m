@@ -42,7 +42,7 @@
         make.top.left.right.bottom.equalTo(@0);
     }];
     
-    
+   
     
     controlLayer=[NYVideoPalayerControlLayer new];
     controlLayer.playerView=playerView;
@@ -59,7 +59,6 @@
         make.left.equalTo(@(20-5));
         make.size.mas_equalTo(CGSizeMake(self.backBtn.frame.size.width,self.backBtn.frame.size.width));
     }];
-    
     
     [[NYImageManager manager] getVideoWithAsset:_assetModel.asset completion:^(AVPlayerItem *playerItem, NSDictionary *info) {
         dispatch_async(dispatch_get_main_queue(), ^{

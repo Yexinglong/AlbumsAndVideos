@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     UITapGestureRecognizer *doubleTap;
     UITapGestureRecognizer *singleTap;
     NSInteger layerIndex;
-    
+
 }
 
 @property (nonatomic, assign) NYPlayerState state;
@@ -169,10 +169,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (object == _player.currentItem) {
         if ([keyPath isEqualToString:@"status"]) {
             if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-                if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+                if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
                     return;
                 }
-                
                 [self setNeedsLayout];
                 [self layoutIfNeeded];
                 // 添加playerLayer到self.layer
@@ -212,7 +211,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
-            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
                 return;
             }
             if (self.playerItem.playbackBufferEmpty) {
@@ -221,7 +220,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
             // 当缓冲好的时候
-            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
                 return;
             }
             if(self.state!=NYPlayerStatePause){
@@ -244,6 +243,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
  重置player
  */
 - (void)resetPlayer{
+    if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+        if(self.state!=NYPlayerStateStopped &&self.state!= NYPlayerStateFailed){
+            NSArray *loadedRanges = _playerItem.seekableTimeRanges;
+            if (loadedRanges.count > 0 &&  _playerItem.duration.timescale != 0) {
+                NSInteger currentTime = (NSInteger)CMTimeGetSeconds([_playerItem currentTime]);
+                _playerModel.seekTime=[NSNumber numberWithInteger:currentTime];
+            }
+        }
+    }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
     [_playerItem removeObserver:self forKeyPath:@"status"];
     [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
@@ -268,6 +277,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // 把player置为nil
     _imageGenerator = nil;
     _player = nil;
+    
 }
 
 
@@ -321,11 +331,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
 -(void)stop{
     self.state=NYPlayerStateStopped;
     [self resetPlayer];
+    _playerModel.seekTime=nil;
 }
 
 -(void)replay{
     [self resetPlayer];
     [self configNYPlayer];
+    _playerModel.seekTime=nil;
 }
 
 /**
@@ -349,6 +361,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
     self.state = NYPlayerStatePause;
     _isPauseByUser = YES;
     [_player pause];
+    if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+            return;
+        }
+    NSArray *loadedRanges = _playerItem.seekableTimeRanges;
+    if (loadedRanges.count > 0 &&  _playerItem.duration.timescale != 0) {
+        NSInteger currentTime = (NSInteger)CMTimeGetSeconds([_playerItem currentTime]);
+        _playerModel.seekTime=[NSNumber numberWithInteger:currentTime];
+    }
+    }
 }
 
 /**
@@ -446,7 +468,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
  缓冲较差时候回调这里
  */
 - (void)bufferingSomeSecond{
-    if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
+    if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
         return;
     }
     self.state = NYPlayerStateBuffering;
@@ -456,12 +478,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     // 需要先暂停一小会之后再播放，否则网络状况不好的时候时间在走，声音播放不出来
     [_player pause];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
-            isBuffering = NO;
-            return;
-        }
-        // 如果此时用户已经暂停了，则不再需要开启播放了
-        if (_isPauseByUser) {
+        if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
             isBuffering = NO;
             return;
         }
@@ -517,7 +534,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             [_delegate playerIsFullScreen:YES];
         }
         layerIndex=[self.fatherView.subviews indexOfObject:self];
-        
+
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
         [UIApplication sharedApplication].statusBarHidden = NO;
         [[[UIApplication sharedApplication].windows lastObject] addSubview:self];
@@ -584,8 +601,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         [self onDeviceOrientationChange];
         return;
     }
-    if(_delegate && [_delegate respondsToSelector:@selector(playerScreenClickIsPlayEnd:)]){
-        [_delegate playerScreenClickIsPlayEnd:playDidEnd];
+    if(_delegate && [_delegate respondsToSelector:@selector(playerScreenClick)]){
+        [_delegate playerScreenClick];
     }
     
 }
@@ -739,6 +756,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
         case AVAudioSessionRouteChangeReasonNewDeviceAvailable:// 耳机插入
             break;
         case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:{//拔掉耳机继续播放
+            if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
+                return;
+            }
             [self play];
         }
             break;
@@ -766,6 +786,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
             return;
         }
+        if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+            if(self.state!=NYPlayerStateStopped &&self.state!= NYPlayerStateFailed){
+                NSArray *loadedRanges = _playerItem.seekableTimeRanges;
+                if (loadedRanges.count > 0 &&  _playerItem.duration.timescale != 0) {
+                    NSInteger currentTime = (NSInteger)CMTimeGetSeconds([_playerItem currentTime]);
+                    _playerModel.seekTime=[NSNumber numberWithInteger:currentTime];
+                }
+            }
+        }
         [_player pause];
         self.state = NYPlayerStatePause;
     }
@@ -779,9 +808,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
         if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed){
             return;
         }
-        if (!_isPauseByUser) {
+        if (_isPauseByUser==NO) {
             self.state = NYPlayerStatePlaying;
-            _isPauseByUser = NO;
             [self play];
         }
     }
