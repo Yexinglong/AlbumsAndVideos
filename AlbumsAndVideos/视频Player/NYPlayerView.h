@@ -114,7 +114,6 @@ typedef NS_ENUM(NSInteger, NYPlayerState) {
 
 @property (nonatomic, assign) BOOL isPauseByUser;//是否被用户暂停
 
-
 /**
  *  自动播放，默认不自动播放
  */

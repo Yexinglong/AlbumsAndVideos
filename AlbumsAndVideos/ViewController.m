@@ -69,6 +69,8 @@
             NYPhotoShowInheritVC *vc=[NYPhotoShowInheritVC new];
             vc.allowPickingPhoto=YES;
             vc.isMultipleChoice=YES;
+            vc.rightButtonTitle=@"下一步";
+            vc.className=@"test";
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
@@ -77,7 +79,8 @@
             NYPhotoShowInheritVC *vc=[NYPhotoShowInheritVC new];
             vc.allowPickingVideo=YES;
             vc.isMultipleChoice=YES;
-
+            vc.rightButtonTitle=@"下一步";
+            vc.className=@"test";
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

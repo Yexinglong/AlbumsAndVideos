@@ -64,8 +64,10 @@
 		D61FCCFC1E1F9E70006A1868 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCCE51E1F9E70006A1868 /* YLImageView.m */; };
 		D61FCCFF1E1F9EE0006A1868 /* UIView+NYTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCCFE1E1F9EE0006A1868 /* UIView+NYTransform.m */; };
 		D61FCD021E1FA0E0006A1868 /* YXLPlayerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD011E1FA0E0006A1868 /* YXLPlayerVC.m */; };
-		D61FCD081E1FA662006A1868 /* NYPhotoShowInheritVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD071E1FA662006A1868 /* NYPhotoShowInheritVC.m */; };
 		D61FCD0B1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D61FCD0A1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m */; };
+		D6CA53461E2F1A3B004E2F74 /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CA53451E2F1A3B004E2F74 /* test.m */; };
+		D6CA53491E2F1A5A004E2F74 /* NYPhotoShowInheritVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CA53481E2F1A5A004E2F74 /* NYPhotoShowInheritVC.m */; };
+		D6CA534C1E2F1A78004E2F74 /* NYPhotoPushVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D6CA534B1E2F1A78004E2F74 /* NYPhotoPushVC.m */; };
 		D6E67BAE1E24E0CE004D330B /* NYVideoPalayerControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */; };
 		D6E67BB31E24E0E6004D330B /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BB01E24E0E6004D330B /* ASValuePopUpView.m */; };
 		D6E67BB41E24E0E6004D330B /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E67BB21E24E0E6004D330B /* ASValueTrackingSlider.m */; };
@@ -183,10 +185,14 @@
 		D61FCCFE1E1F9EE0006A1868 /* UIView+NYTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NYTransform.m"; sourceTree = "<group>"; };
 		D61FCD001E1FA0E0006A1868 /* YXLPlayerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXLPlayerVC.h; sourceTree = "<group>"; };
 		D61FCD011E1FA0E0006A1868 /* YXLPlayerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXLPlayerVC.m; sourceTree = "<group>"; };
-		D61FCD061E1FA662006A1868 /* NYPhotoShowInheritVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPhotoShowInheritVC.h; sourceTree = "<group>"; };
-		D61FCD071E1FA662006A1868 /* NYPhotoShowInheritVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoShowInheritVC.m; sourceTree = "<group>"; };
 		D61FCD091E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPhotoReviewMultipleChoiceCell.h; sourceTree = "<group>"; };
 		D61FCD0A1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoReviewMultipleChoiceCell.m; sourceTree = "<group>"; };
+		D6CA53441E2F1A3B004E2F74 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
+		D6CA53451E2F1A3B004E2F74 /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
+		D6CA53471E2F1A5A004E2F74 /* NYPhotoShowInheritVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPhotoShowInheritVC.h; sourceTree = "<group>"; };
+		D6CA53481E2F1A5A004E2F74 /* NYPhotoShowInheritVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoShowInheritVC.m; sourceTree = "<group>"; };
+		D6CA534A1E2F1A78004E2F74 /* NYPhotoPushVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYPhotoPushVC.h; sourceTree = "<group>"; };
+		D6CA534B1E2F1A78004E2F74 /* NYPhotoPushVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYPhotoPushVC.m; sourceTree = "<group>"; };
 		D6E67BAC1E24E0CE004D330B /* NYVideoPalayerControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYVideoPalayerControlLayer.h; sourceTree = "<group>"; };
 		D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYVideoPalayerControlLayer.m; sourceTree = "<group>"; };
 		D6E67BAF1E24E0E6004D330B /* ASValuePopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASValuePopUpView.h; path = "../相机:相册/ASValuePopUpView.h"; sourceTree = "<group>"; };
@@ -236,8 +242,8 @@
 				D61FCBFA1E1F9C31006A1868 /* ViewController.m */,
 				D61FCD001E1FA0E0006A1868 /* YXLPlayerVC.h */,
 				D61FCD011E1FA0E0006A1868 /* YXLPlayerVC.m */,
-				D61FCD061E1FA662006A1868 /* NYPhotoShowInheritVC.h */,
-				D61FCD071E1FA662006A1868 /* NYPhotoShowInheritVC.m */,
+				D6CA53441E2F1A3B004E2F74 /* test.h */,
+				D6CA53451E2F1A3B004E2F74 /* test.m */,
 				D61FCD091E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.h */,
 				D61FCD0A1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m */,
 				D61FCC841E1F9D66006A1868 /* NY-Header.h */,
@@ -280,6 +286,10 @@
 		D61FCC191E1F9CD6006A1868 /* 相机:相册 */ = {
 			isa = PBXGroup;
 			children = (
+				D6CA534A1E2F1A78004E2F74 /* NYPhotoPushVC.h */,
+				D6CA534B1E2F1A78004E2F74 /* NYPhotoPushVC.m */,
+				D6CA53471E2F1A5A004E2F74 /* NYPhotoShowInheritVC.h */,
+				D6CA53481E2F1A5A004E2F74 /* NYPhotoShowInheritVC.m */,
 				D6E67BAC1E24E0CE004D330B /* NYVideoPalayerControlLayer.h */,
 				D6E67BAD1E24E0CE004D330B /* NYVideoPalayerControlLayer.m */,
 				D61FCC1A1E1F9CD6006A1868 /* NYAssetModel.h */,
@@ -537,6 +547,7 @@
 				D61FCCFF1E1F9EE0006A1868 /* UIView+NYTransform.m in Sources */,
 				D61FCCF71E1F9E70006A1868 /* SVProgressHUD.m in Sources */,
 				D61FCCF01E1F9E70006A1868 /* ViewController+MASAdditions.m in Sources */,
+				D6CA53491E2F1A5A004E2F74 /* NYPhotoShowInheritVC.m in Sources */,
 				D61FCCEA1E1F9E70006A1868 /* MASLayoutConstraint.m in Sources */,
 				D61FCCA61E1F9E35006A1868 /* UIImage+YXL.m in Sources */,
 				D61FCC761E1F9D05006A1868 /* UILabel+YXLAcronymLabel.m in Sources */,
@@ -547,7 +558,6 @@
 				D61FCC3B1E1F9CD6006A1868 /* NYPhotoPreviewCell.m in Sources */,
 				D61FCCF81E1F9E70006A1868 /* SVRadialGradientLayer.m in Sources */,
 				D61FCC3F1E1F9CD6006A1868 /* NYPhotoShowHeader.m in Sources */,
-				D61FCD081E1FA662006A1868 /* NYPhotoShowInheritVC.m in Sources */,
 				D61FCC311E1F9CD6006A1868 /* NYBrightnessView.m in Sources */,
 				D61FCC391E1F9CD6006A1868 /* NYPhotoGroupListView.m in Sources */,
 				D61FCC331E1F9CD6006A1868 /* NYPlayerView.m in Sources */,
@@ -562,6 +572,7 @@
 				D61FCC381E1F9CD6006A1868 /* NYImageManager.m in Sources */,
 				D61FCCEC1E1F9E70006A1868 /* MASViewConstraint.m in Sources */,
 				D61FCC341E1F9CD6006A1868 /* UINavigationController+ZFPlayerRotation.m in Sources */,
+				D6CA534C1E2F1A78004E2F74 /* NYPhotoPushVC.m in Sources */,
 				D61FCCA31E1F9E35006A1868 /* NYBaseNavVC.m in Sources */,
 				D61FCC411E1F9CD6006A1868 /* NYVideoPlayerVC.m in Sources */,
 				D6E67BAE1E24E0CE004D330B /* NYVideoPalayerControlLayer.m in Sources */,
@@ -571,6 +582,7 @@
 				D61FCCED1E1F9E70006A1868 /* NSArray+MASAdditions.m in Sources */,
 				D61FCC741E1F9D05006A1868 /* UIButton+YXLAcronymButton.m in Sources */,
 				D61FCCEE1E1F9E70006A1868 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				D6CA53461E2F1A3B004E2F74 /* test.m in Sources */,
 				D61FCD0B1E1FA66B006A1868 /* NYPhotoReviewMultipleChoiceCell.m in Sources */,
 				D61FCCFC1E1F9E70006A1868 /* YLImageView.m in Sources */,
 				D61FCCF51E1F9E70006A1868 /* SVProgressAnimatedView.m in Sources */,

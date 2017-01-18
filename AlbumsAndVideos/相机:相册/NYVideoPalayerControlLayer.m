@@ -519,7 +519,12 @@
     CGRect rect = [self thumbRect];
     CGPoint point = [touch locationInView:videoSlider];
     if ([touch.view isKindOfClass:[UISlider class]]) { // 如果在滑块上点击就不响应pan手势
-        if (point.x <= rect.origin.x + rect.size.width && point.x >= rect.origin.x) { return NO; }
+        if (point.x <= rect.origin.x + rect.size.width && point.x >= rect.origin.x) {
+            if (playerState == NYPlayerStateFailed || playerState == NYPlayerStateStopped){
+                return YES;
+            }
+            return NO;
+        }
     }
     return YES;
 }

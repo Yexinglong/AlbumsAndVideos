@@ -169,13 +169,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (object == _player.currentItem) {
         if ([keyPath isEqualToString:@"status"]) {
             if (_player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-                if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
-                    return;
-                }
                 [self setNeedsLayout];
                 [self layoutIfNeeded];
                 // 添加playerLayer到self.layer
                 [self.layer insertSublayer:_playerLayer atIndex:0];
+                if(self.state==NYPlayerStateStopped ||self.state== NYPlayerStateFailed ||_isPauseByUser){
+                    
+                    return;
+                }
+             
                 if (!isLocalVideo) {
                     self.state = NYPlayerStateBuffering;
                 }else{

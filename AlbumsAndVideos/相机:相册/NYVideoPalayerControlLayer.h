@@ -13,6 +13,9 @@
 
 @property (nonatomic ,weak) NYPlayerView *playerView;
 
+/**
+ 是否显示滑杆上面小预览图
+ */
 @property (nonatomic ,assign) BOOL hasPreviewView;
 
 @end
